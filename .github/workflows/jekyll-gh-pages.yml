@@ -26,13 +26,18 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'yarn'
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10
 
       - name: Install dependencies
-        run: yarn install
+        run: pnpm install
 
       - name: Build
-        run: GITHUB_PAGES=true yarn run build
+        run: GITHUB_PAGES=true pnpm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
