@@ -11,6 +11,10 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,19 +23,27 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # 1️⃣ Setup Node SEM cache
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
-      # 🔥 Ativa o pnpm via corepack (já vem no Node 22)
-      - name: Enable Corepack
-        run: corepack enable
+      # 2️⃣ Instala pnpm
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10
 
+      # 3️⃣ Força registry público
+      - name: Set npm registry
+        run: pnpm config set registry https://registry.npmjs.org/
+
+      # 4️⃣ Instala dependências
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      # 🔥 IMPORTANTÍSSIMO para seu base funcionar
+      # 5️⃣ Build
       - name: Build
         run: GITHUB_PAGES=true pnpm run build
 
