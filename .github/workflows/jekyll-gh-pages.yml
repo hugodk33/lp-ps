@@ -23,21 +23,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 1️⃣ Instala pnpm primeiro
+      # 1️⃣ Setup Node SEM cache
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # 2️⃣ Instala pnpm
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 10
 
-      # 2️⃣ Depois configura Node
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'pnpm'
-          registry-url: 'https://registry.npmjs.org/'
-
-      # 3️⃣ Força registry público (evita 403)
+      # 3️⃣ Força registry público
       - name: Set npm registry
         run: pnpm config set registry https://registry.npmjs.org/
 
@@ -52,7 +50,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'dist/public'
+          path: dist/public
 
   deploy:
     environment:
