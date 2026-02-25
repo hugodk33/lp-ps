@@ -23,34 +23,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 1️⃣ Setup Node SEM cache
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
-      # 2️⃣ Instala pnpm
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 10
 
-      # 3️⃣ Força registry público
-      - name: Set npm registry
-        run: pnpm config set registry https://registry.npmjs.org/
-
-      # 4️⃣ Instala dependências
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      # 5️⃣ Build
       - name: Build
-        run: GITHUB_PAGES=true pnpm run build
+        run: pnpm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/public
+          path: dist
 
   deploy:
     environment:
