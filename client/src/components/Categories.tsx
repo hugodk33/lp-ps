@@ -1,13 +1,17 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import saude from '../../../assets/saude.png';
+import casa from '../../../assets/casa.png';
+import auto from '../../../assets/auto.png';
+import empresa from '../../../assets/empresa.png';
 
 const categories = [
   {
     id: 'family',
     title: 'Seguro Família',
     description: 'Proteção completa para você e sua família com cobertura abrangente.',
-    image: 'https://private-us-east-1.manuscdn.com/sessionFile/JhTtDMQBfq5D7osnOUT4bM/sandbox/nNtN6FVH34jIIDfBcs6N1C-img-2_1772023032000_na1fn_ZmFtaWx5LXByb3RlY3Rpb24.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80',
+    image: saude,
     features: ['Cobertura Vida', 'Invalidez', 'Funeral'],
     icon: '👨‍👩‍👧‍👦',
   },
@@ -15,7 +19,7 @@ const categories = [
     id: 'auto',
     title: 'Seguro Automóvel',
     description: 'Proteção para seu veículo com as melhores coberturas do mercado.',
-    image: 'https://private-us-east-1.manuscdn.com/sessionFile/JhTtDMQBfq5D7osnOUT4bM/sandbox/nNtN6FVH34jIIDfBcs6N1C-img-3_1772023036000_na1fn_Y2FyLWluc3VyYW5jZQ.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80',
+    image: auto,
     features: ['Colisão', 'Roubo', 'Assistência 24h'],
     icon: '🚗',
   },
@@ -23,7 +27,7 @@ const categories = [
     id: 'business',
     title: 'Seguro Empresarial',
     description: 'Soluções personalizadas para proteger seu negócio e patrimônio.',
-    image: 'https://private-us-east-1.manuscdn.com/sessionFile/JhTtDMQBfq5D7osnOUT4bM/sandbox/nNtN6FVH34jIIDfBcs6N1C-img-4_1772023033000_na1fn_YnVzaW5lc3MtaW5zdXJhbmNl.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80',
+    image: empresa,
     features: ['Responsabilidade Civil', 'Patrimônio', 'Lucros Cessantes'],
     icon: '💼',
   },
@@ -31,7 +35,7 @@ const categories = [
     id: 'property',
     title: 'Seguro Imóvel',
     description: 'Proteção total para sua casa ou imóvel com coberturas flexíveis.',
-    image: 'https://private-us-east-1.manuscdn.com/sessionFile/JhTtDMQBfq5D7osnOUT4bM/sandbox/nNtN6FVH34jIIDfBcs6N1C-img-1_1772023048000_na1fn_aGVyby1iYW5uZXI.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80',
+    image: casa,
     features: ['Incêndio', 'Roubo', 'Danos Estruturais'],
     icon: '🏠',
   },
@@ -39,7 +43,7 @@ const categories = [
 
 export default function Categories() {
   return (
-    <section id="categorias" className="w-full py-20 md:py-32 bg-gradient-to-b from-neutral-light to-white">
+    <section id="categorias" className="w-full py-20 md:py-32 bg-gray-100">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 space-y-4">
           <h2 className="text-primary font-bold">Nossas Categorias</h2>
@@ -61,11 +65,10 @@ export default function Categories() {
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                <div className="absolute bottom-4 left-4 text-4xl">{category.icon}</div>
               </div>
 
               <div className="p-6 space-y-4">
-                <h3 className="text-xl font-bold text-neutral-dark">{category.title}</h3>
+                <h3 className="text-xl font-bold text-neutral-dark">{category.icon + category.title}</h3>
                 <p className="text-neutral-dark/70 text-sm leading-relaxed">{category.description}</p>
 
                 <div className="space-y-2">

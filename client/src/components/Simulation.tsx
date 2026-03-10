@@ -48,7 +48,7 @@ export default function Simulation() {
   const monthlyPrice = calculateMonthly();
 
   return (
-    <section id="simulacao" className="w-full py-20 md:py-32 bg-gradient-to-b from-white to-neutral-light">
+    <section id="simulacao" className="w-full py-20 md:py-32 bg-gray-100">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 space-y-4">
           <div className="inline-flex items-center gap-2 bg-secondary/10 text-secondary px-4 py-2 rounded-full">
@@ -70,7 +70,7 @@ export default function Simulation() {
                   {(['auto', 'home', 'life', 'business'] as const).map((type) => {
                     const isSelected = quote.type === type;
                     const bgClass = isSelected 
-                      ? 'bg-primary text-white shadow-lg' 
+                      ? 'bg-blue-500 text-white shadow-lg' 
                       : 'bg-muted text-neutral-dark hover:bg-muted/80';
                     const label = type === 'auto' ? '🚗 Auto' 
                       : type === 'home' ? '🏠 Casa'
@@ -115,7 +115,7 @@ export default function Simulation() {
                   {(['basic', 'standard', 'premium'] as const).map((level) => {
                     const isSelected = quote.coverage === level;
                     const bgClass = isSelected 
-                      ? 'bg-accent text-white shadow-lg' 
+                      ? 'bg-green-500 text-white shadow-lg' 
                       : 'bg-muted text-neutral-dark hover:bg-muted/80';
                     const label = level === 'basic' ? 'Básica'
                       : level === 'standard' ? 'Padrão'

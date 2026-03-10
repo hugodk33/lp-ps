@@ -28,7 +28,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <img src={logo} alt="Panamericana logo" className="h-14 md:h-10 object-contain" />
+            <img src={logo} alt="Panamericana logo" style={{width: 190}} />
           </div>
 
           {/* Desktop Navigation */}
