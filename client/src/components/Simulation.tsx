@@ -57,7 +57,7 @@ export default function Simulation() {
           </div>
           <h2 className="text-primary font-bold">Calcule Seu Seguro em Segundos</h2>
           <p className="text-lg text-neutral-dark/70 max-w-2xl mx-auto">
-            Descubra o melhor plano para suas necessidades com nossa simulação rápida e fácil.
+            Simule agora sua <b>seguro</b> , rápido e fácil.
           </p>
         </div>
 
@@ -75,7 +75,7 @@ export default function Simulation() {
                     const label = type === 'auto' ? '🚗 Auto' 
                       : type === 'home' ? '🏠 Casa'
                       : type === 'life' ? '❤️ Vida'
-                      : '💼 Negócio';
+                      : '💼 Empresa';
                     return (
                       <button
                         key={type}
