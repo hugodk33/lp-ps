@@ -46,9 +46,9 @@ export default function Categories() {
     <section id="categorias" className="w-full py-20 md:py-32 bg-gray-100">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-primary font-bold">Nossas Categorias</h2>
+          <h2 className="text-primary font-bold">Tipos de seguro</h2>
           <p className="text-lg text-neutral-dark/70 max-w-2xl mx-auto">
-            Explore nossas soluções de seguros especializadas para cada necessidade.
+            Veja qual solução de seguros especializadas para sua necessidade.
           </p>
         </div>
 
@@ -58,7 +58,7 @@ export default function Categories() {
               key={category.id}
               className="overflow-hidden hover:shadow-xl transition-all duration-300 border-0 group cursor-pointer"
             >
-              <div className="relative h-64 overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
+              <div className="relative overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
                 <img
                   src={category.image}
                   alt={category.title}

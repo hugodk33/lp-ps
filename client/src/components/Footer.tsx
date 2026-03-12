@@ -39,16 +39,17 @@ export default function Footer() {
             <div className="space-y-3 text-sm">
               <div className="flex items-center gap-2 text-gray/70">
                 <Phone className="w-4 h-4" />
-                <span>{'( '}85{' )'} 123 4567</span>
+                <span>{"( "}85{" ) "} 3252.1700 | {"( "}85{" ) "} 98540.1230</span>
               </div>
-              <div className="flex items-center gap-2 text-gray/70">
+              {/* <div className="flex items-center gap-2 text-gray/70">
                 <Mail className="w-4 h-4" />
                 <span>contato@corretora.com</span>
-              </div>
+              </div> */}
               <div className="flex items-center gap-2 text-gray/70">
                 <MapPin className="w-4 h-4" />
-                <span>Fortaleza, CE</span>
-              </div>
+                <span>Jaime Benévolo 402 , Centro , Fortaleza, CE</span>
+              </div>              
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3981.340500871574!2d-38.52663369999999!3d-3.7357696!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7c748ffda371331%3A0x76c96a916f15a998!2sR.%20Jaime%20Ben%C3%A9volo%2C%20402%20-%20Centro%2C%20Fortaleza%20-%20CE%2C%2060050-080!5e0!3m2!1spt-BR!2sbr!4v1773323760903!5m2!1spt-BR!2sbr" width="100%" height="280" style={{border:0}}  loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
             </div>
           </div>
 
