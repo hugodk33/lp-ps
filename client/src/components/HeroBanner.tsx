@@ -68,7 +68,7 @@ export default function HeroBanner() {
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-accent rounded-full" />
-                <span className="text-sm font-medium text-neutral-dark">20 anos de experiência</span>
+                <span className="text-sm font-medium text-neutral-dark">40 anos de experiência</span>
               </div>
             </div>
           </div>
