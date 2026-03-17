@@ -52,7 +52,7 @@ export default function Categories() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mx-auto" style={{maxWidth: 1000}}>
           {categories.map((category) => (
             <Card
               key={category.id}

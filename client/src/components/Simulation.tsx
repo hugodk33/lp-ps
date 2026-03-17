@@ -48,7 +48,7 @@ export default function Simulation() {
   const monthlyPrice = calculateMonthly();
 
   return (
-    <section id="simulacao" className="w-full py-20 md:py-32 bg-gray-100">
+    <section id="simulacao" className="w-full py-20 md:py-32 bg-gray-200">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 space-y-4">
           <div className="inline-flex items-center gap-2 bg-secondary/10 text-secondary px-4 py-2 rounded-full">

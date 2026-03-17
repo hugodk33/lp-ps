@@ -13,7 +13,7 @@ import familia from '../../../assets/familia.png'
 
 export default function HeroBanner() {
   return (
-    <section className="relative w-full min-h-screen flex items-center bg-gradient-to-r from-primary/5 to-secondary/5">
+    <section className="relative w-full py-2 flex items-center bg-gradient-to-r from-primary/5 to-secondary/5">
       {/* Background Image */}
       {/* <div
         className="absolute inset-0 bg-cover bg-center opacity-40"
@@ -26,7 +26,7 @@ export default function HeroBanner() {
       <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent" />
 
       {/* Content */}
-      <div className="relative container mx-auto px-4 py-5 md:py-10">
+      <div className="relative container mx-auto px-4 py-5" style={{maxWidth: 1000}}>
         <div className="flex flex-col md:flex-row gap-5 items-center">
           {/* Left Content */}
           <div className="md:w-1/2">
@@ -43,7 +43,7 @@ export default function HeroBanner() {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-1">
+            {/* <div className="flex flex-col sm:flex-row gap-1">
               <Button
                 className="bg-secondary hover:bg-orange-600 text-white font-bold px-5 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 group"
                 onClick={() => document.getElementById('simulacao')?.scrollIntoView({ behavior: 'smooth' })}
@@ -58,7 +58,7 @@ export default function HeroBanner() {
               >
                 Conheça Nossa Empresa
               </Button>
-            </div>
+            </div> */}
 
             {/* Trust Indicators */}
             <div className="flex flex-wrap gap-6 pt-4">

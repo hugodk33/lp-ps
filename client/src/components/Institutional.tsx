@@ -32,6 +32,7 @@ export default function Institutional() {
       <div className="w-full bg-blue-500 text-center py-10" style={{backgroundImage: 'url("' + bginstitucional + '")'}}>
         <img src={escudo} alt="Escudo de Proteção" style={{maxWidth: 130}} className="w-full mx-auto mb-4" />
         <h2 className="text-white font-bold">Quem Somos</h2>
+        <br />
         <p className="indent-8 text-lg text-white max-w-2xl mx-auto mb-2 text-justify p-4 m-1" style={{backgroundColor: '#020237'}}>
           A Panamérica Seguros é uma empresa com uma história de sucesso que começou em 1988, graças à visão e determinação do seu fundador, Emanoel Ribamar Alencar Lima. 
           Nascido em uma família grande, Emanoel iniciou sua carreira como gerente de banco e, aos 38 anos, decidiu criar seu próprio negócio de seguros. 
@@ -45,7 +46,7 @@ export default function Institutional() {
       </div>
       <div className="container mx-auto pt-5 px-4">
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mx-auto" style={{maxWidth: 1000}}>
           {values.map((item, index) => {
             const Icon = item.icon;
             return (
@@ -53,8 +54,10 @@ export default function Institutional() {
                 key={index}
                 className="group p-8 rounded-xl bg-gradient-to-br from-white to-neutral-light border border-border hover:border-primary/30 hover:shadow-lg transition-all duration-300"
               >
-                <h1>{item.emoji}</h1>
-                <h3 className="text-xl font-bold text-neutral-dark mb-3">{item.title}</h3>
+                <h1 className="text-center" >{item.emoji}</h1>
+                <br />
+                <h3 className="text-center text-xl font-bold text-neutral-dark mb-3">{item.title}</h3>
+                <hr className='w-full border-2 my-2'/>
                 <p className="text-neutral-dark/70 leading-relaxed">{item.description}</p>
               </div>
             );

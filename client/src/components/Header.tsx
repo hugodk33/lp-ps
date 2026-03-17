@@ -25,38 +25,10 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-border shadow-sm">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <div className="flex items-center gap-2">
-            <img src={logo} alt="Panamericana logo" style={{width: 190}} />
-          </div>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-neutral-dark hover:text-primary font-medium transition-colors duration-300"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
-
-          {/* Desktop CTA Button */}
-          <div className="hidden md:block">
-            <Button
-              className="bg-secondary hover:bg-orange-600 text-white font-semibold px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
-              onClick={() => window.location.href = '#simulacao'}
-            >
-              Simular Agora
-            </Button>
-          </div>
-
+        <div className="flex items-center justify-center gap-2 h-20">
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 hover:bg-muted rounded-lg transition-colors"
+            className="p-2 hover:bg-muted rounded-lg transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -66,17 +38,45 @@ export default function Header() {
               <Menu className="w-6 h-6 text-primary" />
             )}
           </button>
+          {/* Logo */}
+          <div className="flex items-center gap-2">
+            <img src={logo} alt="Panamericana logo" style={{width: 190}} />
+          </div>
+
+          {/* Desktop Navigation */}
+          {/* <nav className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-neutral-dark hover:text-primary font-medium transition-colors duration-300"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav> */}
+
+          {/* Desktop CTA Button */}
+          {/* <div className="hidden md:block">
+            <Button
+              className="bg-secondary hover:bg-orange-600 text-white font-semibold px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+              onClick={() => window.location.href = '#simulacao'}
+            >
+              Simular Agora
+            </Button>
+          </div> */}
+
         </div>
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <nav className="md:hidden pb-4 border-t border-border">
+          <nav className="fixed top-25 pb-4 border-t border-border mx-auto bg-gray-100 rounded-md shadow" style={{  right: '47%'}}>
             <div className="flex flex-col gap-3 pt-4">
               {navLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
-                  className="text-neutral-dark hover:text-primary font-medium px-4 py-2 rounded-lg hover:bg-muted transition-all duration-300"
+                  className="bold text-neutral-dark hover:text-primary font-medium px-4 py-2 rounded-lg hover:bg-muted transition-all duration-300"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {link.label}
@@ -88,6 +88,7 @@ export default function Header() {
                   window.location.href = '#simulacao';
                   setIsMenuOpen(false);
                 }}
+                style={{maxWidth: 170}}
               >
                 Simular Agora
               </Button>

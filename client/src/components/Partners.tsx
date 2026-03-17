@@ -30,7 +30,7 @@ export default function Partners() {
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-4">
+        <div className="flex flex-wrap justify-center gap-4 mx-auto" style={{maxWidth: 1000}}>
           {partners.map((partner, index) => (
             <Card
               key={index}
