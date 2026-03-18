@@ -33,11 +33,12 @@ export default function Institutional() {
         <img src={escudo} alt="Escudo de Proteção" style={{maxWidth: 130}} className="w-full mx-auto mb-4" />
         <h2 className="text-white font-bold">Quem Somos</h2>
         <br />
-        <p className="indent-8 text-lg text-white max-w-2xl mx-auto mb-2 text-justify p-4 m-1" style={{backgroundColor: '#020237'}}>
+        <p className="indent-8 text-lg text-white max-w-2xl mx-auto mb-4 text-justify rounded-md p-4 m-1" style={{backgroundColor: '#020237'}}>
           A Panamérica Seguros é uma empresa com uma história de sucesso que começou em 1988, graças à visão e determinação do seu fundador, Emanoel Ribamar Alencar Lima. 
           Nascido em uma família grande, Emanoel iniciou sua carreira como gerente de banco e, aos 38 anos, decidiu criar seu próprio negócio de seguros. 
         </p>
-        <p className="indent-8 text-lg text-white max-w-2xl mx-auto text-justify p-4 m-1" style={{backgroundColor: '#020237'}}>
+        <br />
+        <p className="indent-8 text-lg text-white max-w-2xl mx-auto text-justify rounded-md p-4 m-1" style={{backgroundColor: '#020237'}}>
           Hoje, a Panamérica é uma referência no mercado, com uma carteira de clientes relevantes, nas áreas industrial, comercial e empresas de ônibus, além de forte atuação no segmento individual. 
           Com uma trajetória marcada pela dedicação e espírito empreendedor, a Panamérica continua a crescer. 
           Mais do que vender seguros, oferecemos um atendimento humanizado e uma consultoria especializada, garantindo que você tenha a cobertura certa para cada momento da sua vida.
@@ -58,7 +59,7 @@ export default function Institutional() {
                 <br />
                 <h3 className="text-center text-xl font-bold text-neutral-dark mb-3">{item.title}</h3>
                 <hr className='w-full border-2 my-2'/>
-                <p className="text-neutral-dark/70 leading-relaxed">{item.description}</p>
+                <p className="text-neutral-dark/70 leading-relaxed text-justify text-sm">{item.description}</p>
               </div>
             );
           })}

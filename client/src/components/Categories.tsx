@@ -59,12 +59,12 @@ export default function Categories() {
               className="overflow-hidden hover:shadow-xl transition-all duration-300 border-0 group cursor-pointer"
             >
               <div className="relative overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                 <img
                   src={category.image}
                   alt={category.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
               </div>
 
               <div className="p-6 space-y-4">
