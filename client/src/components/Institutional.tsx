@@ -29,20 +29,19 @@ export default function Institutional() {
 
   return (
     <section id="institucional" className="w-full pb-20 md:p-0 bg-white" >
-      <div className="w-full bg-blue-500 text-center py-10" style={{backgroundImage: 'url("' + bginstitucional + '")'}}>
+      <div className="w-full bg-blue-500 text-center py-10" style={{backgroundImage: 'url("' + bginstitucional + '")' , backgroundSize: '100% auto'}}>
         <img src={escudo} alt="Escudo de Proteção" style={{maxWidth: 130}} className="w-full mx-auto mb-4" />
         <h2 className="text-white font-bold">Quem Somos</h2>
         <br />
-        <p className="indent-8 text-lg text-white max-w-2xl mx-auto mb-4 text-justify rounded-md p-4 m-1" style={{backgroundColor: '#020237'}}>
-          A Panamérica Seguros é uma empresa com uma história de sucesso que começou em 1988, graças à visão e determinação do seu fundador, Emanoel Ribamar Alencar Lima. 
-          Nascido em uma família grande, Emanoel iniciou sua carreira como gerente de banco e, aos 38 anos, decidiu criar seu próprio negócio de seguros. 
+        <p className="indent-8 text-lg text-white max-w-2xl mx-auto mb-4 text-justify rounded-md p-2 m-1" style={{backgroundColor: '#020237'}}>
+          A <b>Panamérica Seguros</b> é uma empresa com uma história de sucesso que começou em <b>1988</b>, graças à visão e determinação do seu fundador, <b>Emanoel Ribamar Alencar Lima</b>. 
+          Nascido em uma família grande, Emanoel iniciou sua carreira como gerente de banco e, aos <b>38 anos</b>, decidiu criar seu próprio negócio de seguros. 
         </p>
-        <br />
-        <p className="indent-8 text-lg text-white max-w-2xl mx-auto text-justify rounded-md p-4 m-1" style={{backgroundColor: '#020237'}}>
-          Hoje, a Panamérica é uma referência no mercado, com uma carteira de clientes relevantes, nas áreas industrial, comercial e empresas de ônibus, além de forte atuação no segmento individual. 
-          Com uma trajetória marcada pela dedicação e espírito empreendedor, a Panamérica continua a crescer. 
-          Mais do que vender seguros, oferecemos um atendimento humanizado e uma consultoria especializada, garantindo que você tenha a cobertura certa para cada momento da sua vida.
-          Sempre com visão inovadora, a Panamérica está na palma da sua mão oferecendo um site completo, onde você pode fazer a simulação do seu seguro e usufruir de todos os nossos serviços. Panamérica seguros, proteção sem fronteiras.
+        <p className="indent-8 text-lg text-white max-w-2xl mx-auto text-justify rounded-md p-2 m-1" style={{backgroundColor: '#020237'}}>
+          Hoje, a <b>Panamérica</b> é uma referência no mercado, com uma carteira de clientes relevantes, nas áreas <b>industrial</b>, <b>comercial</b> e <b>empresas de ônibus</b>, além de forte atuação no <b>segmento individual</b>. 
+          Com uma trajetória marcada pela dedicação e espírito empreendedor, a Panamérica continua a crescer. <br />
+          Mais do que vender seguros, oferecemos um <b>atendimento humanizado</b> e uma <b>consultoria especializada</b>, garantindo que você tenha <b>a cobertura certa para cada momento da sua vida</b>.
+          Sempre com visão inovadora, a <b>Panamérica</b> está na palma da sua mão oferecendo um site completo, onde você pode fazer a simulação do seu seguro e usufruir de todos os nossos serviços. <b>Panamérica seguros</b>, proteção sem fronteiras.
         </p>
       </div>
       <div className="container mx-auto pt-5 px-4">
