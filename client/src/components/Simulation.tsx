@@ -283,6 +283,7 @@ export default function Simulation() {
             <ReCAPTCHA
               sitekey="6LfSFpEsAAAAAB5dwKw79cpzvjbbQub33TvaRyul"
               onChange={(value:any) => setCaptchaValue(value)}
+              className='flex items-center justify-center'
             />
             <button
               type="submit"
