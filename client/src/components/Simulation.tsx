@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Calculator } from 'lucide-react';
+import emailjs from 'emailjs-com';
+import ReCAPTCHA from "react-google-recaptcha";
 
 interface QuoteData {
   type: 'auto' | 'home' | 'life' | 'business';
@@ -31,6 +33,56 @@ export default function Simulation() {
 
   const [submitted, setSubmitted] = useState(false);
   const [email, setEmail] = useState('');
+  const [isSent, setIsSent] = useState(false);
+  const [captchaValue, setCaptchaValue] = useState<string | null>(null);
+  const [form, setForm] = useState({
+    fullName: '',
+    email: '',
+    whatsapp: '',
+    cpf: '',
+    message: '',
+  });
+
+  const isValidPhone = (phone: string) => {
+    const digits = phone.replace(/\D/g, '');
+    return digits.length === 11;
+  };
+  
+  const isValidEmail = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const isValidCPF = (cpf: string) => {
+    const cleaned = cpf.replace(/\D/g, '');
+  
+    if (cleaned.length !== 11 || /^(\d)\1+$/.test(cleaned)) return false;
+  
+    let sum = 0;
+    let rest;
+  
+    for (let i = 1; i <= 9; i++)
+      sum += parseInt(cleaned.substring(i - 1, i)) * (11 - i);
+  
+    rest = (sum * 10) % 11;
+    if (rest === 10 || rest === 11) rest = 0;
+    if (rest !== parseInt(cleaned.substring(9, 10))) return false;
+  
+    sum = 0;
+    for (let i = 1; i <= 10; i++)
+      sum += parseInt(cleaned.substring(i - 1, i)) * (12 - i);
+  
+    rest = (sum * 10) % 11;
+    if (rest === 10 || rest === 11) rest = 0;
+  
+    return rest === parseInt(cleaned.substring(10, 11));
+  };
+
+  const isFormValid =
+  form.fullName.length > 3 &&
+  isValidEmail(form.email) &&
+  isValidPhone(form.whatsapp) &&
+  isValidCPF(form.cpf) &&
+  form.message.length > 5 &&
+  !!captchaValue;
 
   const calculateMonthly = () => {
     const basePrice = BASE_PRICES[quote.type];
@@ -39,10 +91,44 @@ export default function Simulation() {
     return Math.round(basePrice * multiplier * valueMultiplier * 100) / 100;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
+  
+    if (!isFormValid) return;
+  
+    const finalMessage = `
+  Nova solicitação de contato 📩
+  
+  👤 Nome: ${form.fullName}
+  📧 Email: ${form.email}
+  📱 WhatsApp: ${form.whatsapp}
+  🪪 CPF: ${form.cpf}
+  
+  💬 Mensagem:
+  ${form.message}
+    `;
+  
+    emailjs.send(
+      'service_0wz250l',
+      'template_bbu3a8x',
+      {
+        name: form.fullName,
+        time: new Date().toLocaleString('pt-BR'),
+        message: finalMessage,
+      },
+      'UBZh004gEbzDGltI-'
+    )
+    .then(() => {
+      setIsSent(true);
+      setForm({
+        fullName: '',
+        email: '',
+        whatsapp: '',
+        cpf: '',
+        message: '',
+      });
+    })
+    .catch(console.error);
   };
 
   const monthlyPrice = calculateMonthly();
@@ -50,18 +136,97 @@ export default function Simulation() {
   return (
     <section id="simulacao" className="w-full py-20 md:py-32 bg-gray-200">
       <div className="container mx-auto px-4">
+
         <div className="text-center mb-16 space-y-4">
           <div className="inline-flex items-center gap-2 bg-secondary/10 text-secondary px-4 py-2 rounded-full">
             <Calculator className="w-5 h-5" />
-            <span className="font-semibold">Simulador de Preços</span>
+            <span className="font-semibold">Receber Simulação</span>
           </div>
-          <h2 className="text-primary font-bold">Calcule Seu Seguro em Segundos</h2>
+          <h2 className="text-primary font-bold">Receba o calculo de seu seguro</h2>
           <p className="text-lg text-neutral-dark/70 max-w-2xl mx-auto">
-            Simule agora sua <b>seguro</b> , rápido e fácil.
+            Nos contacte para receber sua simulação
           </p>
         </div>
+        <div style={{maxWidth: 360 , margin: '0 auto'}}>
+          {/* <h3 className="font-bold text-lg">Email</h3> */}
 
-        <div className="max-w-2xl mx-auto">
+          {!isSent ? (
+            <form onSubmit={handleSubmit} className="space-y-6">
+            <input
+              name="fullName"
+              type="text"
+              placeholder="Nome completo"
+              className="w-full p-2 rounded border bg-white"
+              value={form.fullName}
+              onChange={(e) => setForm({ ...form, fullName: e.target.value })}
+              required
+            />
+          
+            <input
+              name="email"
+              type="email"
+              placeholder="Seu e-mail"
+              className="w-full p-2 rounded border bg-white"
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              required
+            />
+          
+            <input
+              name="whatsapp"
+              type="text"
+              placeholder="WhatsApp"
+              className="w-full p-2 rounded border bg-white"
+              value={form.whatsapp}
+              onChange={(e) => setForm({ ...form, whatsapp: e.target.value })}
+              required
+            />
+          
+            <input
+              name="cpf"
+              type="text"
+              placeholder="CPF"
+              className="w-full p-2 rounded border bg-white"
+              value={form.cpf}
+              onChange={(e) => setForm({ ...form, cpf: e.target.value })}
+              required
+            />
+          
+            <textarea
+              name="message"
+              placeholder="Mensagem"
+              className="w-full p-2 rounded border bg-white"
+              value={form.message}
+              onChange={(e) => setForm({ ...form, message: e.target.value })}
+              required
+            />
+            <ReCAPTCHA
+              sitekey="6LfSFpEsAAAAAB5dwKw79cpzvjbbQub33TvaRyul"
+              onChange={(value:any) => setCaptchaValue(value)}
+            />
+            <button
+              type="submit"
+              disabled={!isFormValid}
+              className={`py-2 px-4 w-full rounded text-white ${
+                isFormValid ? 'bg-primary' : 'bg-gray-400 cursor-not-allowed'
+              }`}
+            >
+              Enviar Mensagem
+            </button>
+          </form>
+          ) : (
+            <div className="p-6 bg-green-100 rounded-lg text-center">
+              <h4 className="text-lg font-bold text-green-700 mb-2">
+                ✅ Obrigado pela mensagem!
+              </h4>
+              <p className="text-sm text-green-800">
+                Sua mensagem foi enviada para <br />
+                <strong>panamerica@panamericanordesteseguros.com.br</strong>
+              </p>
+            </div>
+          )}
+        </div>
+        {/* <div className="max-w-2xl mx-auto">
           <Card className="p-8 md:p-12 shadow-lg border-0">
             <form onSubmit={handleSubmit} className="space-y-8">
               <div className="space-y-4">
@@ -69,13 +234,13 @@ export default function Simulation() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {(['auto', 'home', 'life', 'business'] as const).map((type) => {
                     const isSelected = quote.type === type;
-                    const bgClass = isSelected 
-                      ? 'bg-blue-500 text-white shadow-lg' 
+                    const bgClass = isSelected
+                      ? 'bg-blue-500 text-white shadow-lg'
                       : 'bg-muted text-neutral-dark hover:bg-muted/80';
-                    const label = type === 'auto' ? '🚗 Auto' 
+                    const label = type === 'auto' ? '🚗 Auto'
                       : type === 'home' ? '🏠 Casa'
-                      : type === 'life' ? '❤️ Vida'
-                      : '💼 Empresa';
+                        : type === 'life' ? '❤️ Vida'
+                          : '💼 Empresa';
                     return (
                       <button
                         key={type}
@@ -114,12 +279,12 @@ export default function Simulation() {
                 <div className="grid grid-cols-3 gap-3">
                   {(['basic', 'standard', 'premium'] as const).map((level) => {
                     const isSelected = quote.coverage === level;
-                    const bgClass = isSelected 
-                      ? 'bg-green-500 text-white shadow-lg' 
+                    const bgClass = isSelected
+                      ? 'bg-green-500 text-white shadow-lg'
                       : 'bg-muted text-neutral-dark hover:bg-muted/80';
                     const label = level === 'basic' ? 'Básica'
                       : level === 'standard' ? 'Padrão'
-                      : 'Premium';
+                        : 'Premium';
                     return (
                       <button
                         key={level}
@@ -162,7 +327,7 @@ export default function Simulation() {
               </Button>
             </form>
           </Card>
-        </div>
+        </div> */}
       </div>
     </section>
   );

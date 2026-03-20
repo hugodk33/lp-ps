@@ -34,13 +34,15 @@ export default function Institutional() {
           <img src={escudo} alt="Escudo de Proteção" style={{maxWidth: 130}} className="w-full mx-auto mb-4" />
           <h2 className="text-white font-bold">Quem Somos</h2>
           <br />
-          <p className="indent-8 text-lg text-white mb-4 text-justify rounded-md p-3 m-2" style={{backgroundColor: '#020237'}}>
+          <p className="indent-8 text-lg text-white text-justify rounded-md p-3 m-2" style={{backgroundColor: '#020237'}}>
             A <b>Panamérica Seguros</b> é uma empresa com uma história de sucesso que começou em <b>1988</b>, graças à visão e determinação do seu fundador, <b>Emanoel Ribamar Alencar Lima</b>. 
             Nascido em uma família grande, Emanoel iniciou sua carreira como gerente de banco e, aos <b>38 anos</b>, decidiu criar seu próprio negócio de seguros. 
           </p>
-          <p className="indent-8 text-lg text-white text-justify rounded-md p-3 m-2" style={{backgroundColor: '#020237' }}>
+          <p className="indent-8 text-lg text-white text-justify rounded-md p-3 m-2" style={{backgroundColor: '#020237'}}>
             Hoje, a <b>Panamérica</b> é uma referência no mercado, com uma carteira de clientes relevantes, nas áreas <b>industrial</b>, <b>comercial</b> e <b>empresas de ônibus</b>, além de forte atuação no <b>segmento individual</b>. 
-            Com uma trajetória marcada pela dedicação e espírito empreendedor, a Panamérica continua a crescer. <br />
+            Com uma trajetória marcada pela dedicação e espírito empreendedor, a Panamérica continua a crescer.
+          </p>
+          <p className="indent-8 text-lg text-white text-justify rounded-md p-3 m-2" style={{backgroundColor: '#020237'}}>
             Mais do que vender seguros, oferecemos um <b>atendimento humanizado</b> e uma <b>consultoria especializada</b>, garantindo que você tenha <b>a cobertura certa para cada momento da sua vida</b>.
             Sempre com visão inovadora, a <b>Panamérica</b> está na palma da sua mão oferecendo um site completo, onde você pode fazer a simulação do seu seguro e usufruir de todos os nossos serviços. <b>Panamérica seguros</b>, proteção sem fronteiras.
           </p>
