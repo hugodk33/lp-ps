@@ -31,8 +31,6 @@ export default function Simulation() {
     coverage: 'standard',
   });
 
-  const [submitted, setSubmitted] = useState(false);
-  const [email, setEmail] = useState('');
   const [isSent, setIsSent] = useState(false);
   const [captchaValue, setCaptchaValue] = useState<string | null>(null);
   const [form, setForm] = useState({
@@ -42,6 +40,55 @@ export default function Simulation() {
     cpf: '',
     message: '',
   });
+
+  const [touched, setTouched] = useState({
+    fullName: false,
+    email: false,
+    whatsapp: false,
+    cpf: false,
+    message: false,
+  });
+
+  const getError = (field: string) => {
+    if (!touched[field as keyof typeof touched]) return '';
+  
+    switch (field) {
+      case 'fullName':
+        return form.fullName.length < 3 ? 'Nome muito curto' : '';
+  
+      case 'email':
+        return !isValidEmail(form.email) ? 'Email inválido' : '';
+  
+      case 'whatsapp':
+        return !isValidPhone(form.whatsapp) ? 'WhatsApp inválido (DDD + número)' : '';
+  
+      case 'cpf':
+        return !isValidCPF(form.cpf) ? 'CPF inválido' : '';
+  
+      case 'message':
+        return form.message.length < 5 ? 'Mensagem muito curta' : '';
+  
+      default:
+        return '';
+    }
+  };
+
+  const formatPhone = (value: string) => {
+    return value
+      .replace(/\D/g, '')
+      .replace(/^(\d{2})(\d)/, '($1) $2')
+      .replace(/(\d{5})(\d)/, '$1-$2')
+      .slice(0, 15);
+  };
+
+  const formatCPF = (value: string) => {
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+      .slice(0, 14);
+  };
 
   const isValidPhone = (phone: string) => {
     const digits = phone.replace(/\D/g, '');
@@ -156,50 +203,83 @@ export default function Simulation() {
               name="fullName"
               type="text"
               placeholder="Nome completo"
-              className="w-full p-2 rounded border bg-white"
-              value={form.fullName}
               onChange={(e) => setForm({ ...form, fullName: e.target.value })}
+              onBlur={() => setTouched({ ...touched, fullName: true })}
+              className={`w-full p-2 rounded border bg-white ${
+                getError('fullName') ? 'border-red-500' : 'border-gray-300'
+              }`}
               required
             />
-          
+            
+            {getError('fullName') && (
+              <span className="text-red-500 text-sm">{getError('fullName')}</span>
+            )}
+
             <input
               name="email"
               type="email"
               placeholder="Seu e-mail"
-              className="w-full p-2 rounded border bg-white"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
-              required
+              onBlur={() => setTouched({ ...touched, email: true })}
+              className={`w-full p-2 rounded border bg-white ${
+                getError('email') ? 'border-red-500' : 'border-gray-300'
+              }`}
             />
+
+            {getError('email') && (
+              <span className="text-red-500 text-sm">{getError('email')}</span>
+            )}
           
             <input
               name="whatsapp"
               type="text"
               placeholder="WhatsApp"
-              className="w-full p-2 rounded border bg-white"
-              value={form.whatsapp}
               onChange={(e) => setForm({ ...form, whatsapp: e.target.value })}
+              onBlur={() => setTouched({ ...touched, whatsapp: true })}
+              className={`w-full p-2 rounded border bg-white ${
+                getError('whatsapp') ? 'border-red-500' : 'border-gray-300'
+              }`}
               required
             />
+
+            {getError('whatsapp') && (
+              <span className="text-red-500 text-sm">{getError('whatsapp')}</span>
+            )}
           
             <input
               name="cpf"
               type="text"
               placeholder="CPF"
-              className="w-full p-2 rounded border bg-white"
-              value={form.cpf}
               onChange={(e) => setForm({ ...form, cpf: e.target.value })}
+              onBlur={() => setTouched({ ...touched, cpf: true })}
+              className={`w-full p-2 rounded border bg-white ${
+                getError('cpf') ? 'border-red-500' : 'border-gray-300'
+              }`}
               required
             />
+
+            {getError('cpf') && (
+              <span className="text-red-500 text-sm">{getError('cpf')}</span>
+            )}
           
             <textarea
               name="message"
               placeholder="Mensagem"
-              className="w-full p-2 rounded border bg-white"
               value={form.message}
               onChange={(e) => setForm({ ...form, message: e.target.value })}
+              onBlur={() => setTouched({ ...touched, message: true })}
+              className={`w-full p-2 rounded border bg-white ${
+                getError('message') ? 'border-red-500' : 'border-gray-300'
+              }`}
               required
             />
+
+            {getError('message') && (
+              <span className=
+              "text-red-500 text-sm">{getError('message')}</span>
+            )}
+
             <ReCAPTCHA
               sitekey="6LfSFpEsAAAAAB5dwKw79cpzvjbbQub33TvaRyul"
               onChange={(value:any) => setCaptchaValue(value)}
