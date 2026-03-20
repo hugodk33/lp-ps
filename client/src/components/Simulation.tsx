@@ -189,7 +189,7 @@ export default function Simulation() {
             <Calculator className="w-5 h-5" />
             <span className="font-semibold">Receber Simulação</span>
           </div>
-          <h2 className="text-primary font-bold">Receba o calculo de seu seguro</h2>
+          <h2 className="text-primary font-bold">Receba o cálculo de seu seguro</h2>
           <p className="text-lg text-neutral-dark/70 max-w-2xl mx-auto">
             Nos contacte para receber sua simulação
           </p>
