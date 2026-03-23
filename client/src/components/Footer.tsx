@@ -47,16 +47,11 @@ export default function Footer() {
             <h3 className="font-bold text-lg">Redes Sociais</h3>
             <div className="flex gap-3">
               <a
-                href="#"
-                className="w-10 h-10 bg-white/10 hover:bg-secondary rounded-lg flex items-center justify-center transition-colors"
+                href="https://www.instagram.com/panamericanordesteseguros_/"
+                target='_blank'
+                className="w-20 h-20 bg-gray-100 hover:bg-blue-300 rounded-lg flex items-center justify-center transition-colors"
               >
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 bg-white/10 hover:bg-secondary rounded-lg flex items-center justify-center transition-colors"
-              >
-                <Linkedin className="w-5 h-5" />
+                <Instagram className="w-15 h-15" />
               </a>
             </div>
           </div>
