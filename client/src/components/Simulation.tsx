@@ -60,10 +60,7 @@ export default function Simulation() {
 
   const [empresarialForm, setEmpresarialForm] = useState({
     documento: '',
-    rc: '',
-    subtracao: '',
-    desmoronamento: '',
-    vazamento: '',
+    coberturas: [] as string[],
   });
 
   const [touched, setTouched] = useState({
@@ -186,8 +183,7 @@ export default function Simulation() {
 
     if (type === 'empresarial') {
       return (
-        empresarialForm.documento &&
-        empresarialForm.rc
+        empresarialForm.documento
       );
     }
 
@@ -230,27 +226,26 @@ ${autoForm.observacoes}
 
     if (type === 'residencial') {
       finalMessage = `
-🏠 Seguro Residencial
+      🏠 Seguro Residencial
 
-Documento: ${residencialForm.documento}
-CEP: ${residencialForm.cep}
-Valor: ${residencialForm.valor}
+      Documento: ${residencialForm.documento}
+      CEP: ${residencialForm.cep}
+      Valor: ${residencialForm.valor}
 
-Coberturas:
-${residencialForm.coberturas.join(', ')}
-`;
+      Coberturas:
+      ${residencialForm.coberturas.join(', ')}
+      `;
     }
 
     if (type === 'empresarial') {
       finalMessage = `
-🏢 Seguro Empresarial
+      🏢 Seguro Empresarial
 
-Documento: ${empresarialForm.documento}
-RC: ${empresarialForm.rc}
-Subtração: ${empresarialForm.subtracao}
-Desmoronamento: ${empresarialForm.desmoronamento}
-Vazamento: ${empresarialForm.vazamento}
-`;
+      Documento: ${empresarialForm.documento}
+
+      Coberturas:
+      ${empresarialForm.coberturas.join(', ') || 'Nenhuma selecionada'}
+      `;
     }
 
     emailjs.send(
@@ -435,10 +430,11 @@ Vazamento: ${empresarialForm.vazamento}
 
                   <input className='w-full p-2 rounded border bg-white ' placeholder="Valor indenizatório" onChange={(e) => setResidencialForm({ ...residencialForm, valor: e.target.value })} />
 
+
                   {['Dano elétrico', 'RC Família', 'Subtração', 'Desmoronamento', 'Vazamento'].map((item) => (
                     <label className='flex' key={item}>
                       <input
-                         className='flex flex-col flex-wrap gap-2 ' 
+                        className='flex flex-col flex-wrap gap-2 '
                         type="checkbox"
                         onChange={(e) => {
                           if (e.target.checked) {
@@ -456,15 +452,49 @@ Vazamento: ${empresarialForm.vazamento}
               )}
               {type === 'empresarial' && (
                 <>
-                  <input className='w-full p-2 rounded border bg-white ' placeholder="CPF/CNPJ" onChange={(e) => setEmpresarialForm({ ...empresarialForm, documento: e.target.value })} />
+                  <input
+                    placeholder="CPF/CNPJ"
+                    onChange={(e) =>
+                      setEmpresarialForm({
+                        ...empresarialForm,
+                        documento: e.target.value,
+                      })
+                    }
+                    className="w-full p-2 rounded border bg-white"
+                  />
 
-                  <input className='w-full p-2 rounded border bg-white ' placeholder="Responsabilidade Civil" onChange={(e) => setEmpresarialForm({ ...empresarialForm, rc: e.target.value })} />
+                  <p className="font-semibold mt-2">Coberturas adicionais:</p>
 
-                  <input className='w-full p-2 rounded border bg-white ' placeholder="Subtração de bens" onChange={(e) => setEmpresarialForm({ ...empresarialForm, subtracao: e.target.value })} />
-
-                  <input className='w-full p-2 rounded border bg-white ' placeholder="Desmoronamento" onChange={(e) => setEmpresarialForm({ ...empresarialForm, desmoronamento: e.target.value })} />
-
-                  <input className='w-full p-2 rounded border bg-white ' placeholder="Vazamento" onChange={(e) => setEmpresarialForm({ ...empresarialForm, vazamento: e.target.value })} />
+                  {[
+                    'Danos Elétricos',
+                    'Responsabilidade Civil',
+                    'Subtração de Bens',
+                    'Desmoronamento',
+                    'Vazamento de Tanques e Tubulações',
+                  ].map((item) => (
+                    <label key={item} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        checked={empresarialForm.coberturas.includes(item)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setEmpresarialForm({
+                              ...empresarialForm,
+                              coberturas: [...empresarialForm.coberturas, item],
+                            });
+                          } else {
+                            setEmpresarialForm({
+                              ...empresarialForm,
+                              coberturas: empresarialForm.coberturas.filter(
+                                (c) => c !== item
+                              ),
+                            });
+                          }
+                        }}
+                      />
+                      {item}
+                    </label>
+                  ))}
                 </>
               )}
               <ReCAPTCHA
