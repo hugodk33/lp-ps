@@ -60,6 +60,8 @@ export default function Simulation() {
 
   const [empresarialForm, setEmpresarialForm] = useState({
     documento: '',
+    cep: '',
+    valor: '',
     coberturas: [] as string[],
   });
 
@@ -149,46 +151,23 @@ export default function Simulation() {
     return rest === parseInt(cleaned.substring(10, 11));
   };
 
-  const isFormValid = (() => {
-    if (!captchaValue) return false;
+const isAutoValid = autoForm.cpfCondutor && autoForm.placa;
+const isResidencialValid = residencialForm.documento && residencialForm.cep;
+const isEmpresarialValid = empresarialForm.documento && empresarialForm.cep;
 
-    if (type === 'familia') {
-      return (
-        form.fullName.length > 3 &&
-        isValidEmail(form.email) &&
-        isValidPhone(form.whatsapp) &&
-        isValidCPF(form.cpf) &&
-        form.message.length > 5
-      );
-    }
-
-    if (type === 'auto') {
-      return (
-        isValidCPF(autoForm.cpfCondutor) &&
-        isValidCPF(autoForm.cpfSegurado) &&
-        autoForm.estadoCivil &&
-        autoForm.placa &&
-        autoForm.uso &&
-        autoForm.jovem
-      );
-    }
-
-    if (type === 'residencial') {
-      return (
-        residencialForm.documento &&
-        residencialForm.cep &&
-        residencialForm.valor
-      );
-    }
-
-    if (type === 'empresarial') {
-      return (
-        empresarialForm.documento
-      );
-    }
-
-    return false;
-  })();
+const isFormValid =
+  !!captchaValue &&
+  (
+    (type === 'familia' &&
+      form.fullName.length > 3 &&
+      isValidEmail(form.email) &&
+      isValidPhone(form.whatsapp) &&
+      isValidCPF(form.cpf)
+    ) ||
+    (type === 'auto' && isAutoValid) ||
+    (type === 'residencial' && isResidencialValid) ||
+    (type === 'empresarial' && isEmpresarialValid)
+  );
 
   const calculateMonthly = () => {
     const basePrice = BASE_PRICES[quote.type];
@@ -242,9 +221,11 @@ ${autoForm.observacoes}
       🏢 Seguro Empresarial
 
       Documento: ${empresarialForm.documento}
+      CEP: ${empresarialForm.cep}
+      Valor: ${empresarialForm.valor}
 
       Coberturas:
-      ${empresarialForm.coberturas.join(', ') || 'Nenhuma selecionada'}
+      ${empresarialForm.coberturas.join(', ') || 'Nenhuma'}
       `;
     }
 
@@ -454,16 +435,31 @@ ${autoForm.observacoes}
                 <>
                   <input
                     placeholder="CPF/CNPJ"
+                    className='w-full p-2 rounded border bg-white'
                     onChange={(e) =>
-                      setEmpresarialForm({
-                        ...empresarialForm,
-                        documento: e.target.value,
-                      })
+                      setEmpresarialForm({ ...empresarialForm, documento: e.target.value })
                     }
-                    className="w-full p-2 rounded border bg-white"
                   />
 
-                  <p className="font-semibold mt-2">Coberturas adicionais:</p>
+                  <input
+                    placeholder="CEP"
+                    className='w-full p-2 rounded border bg-white'
+                    onChange={(e) =>
+                      setEmpresarialForm({ ...empresarialForm, cep: e.target.value })
+                    }
+                  />
+
+                  <input
+                    placeholder="Valor indenizatório"
+                    className='w-full p-2 rounded border bg-white'
+                    onChange={(e) =>
+                      setEmpresarialForm({ ...empresarialForm, valor: e.target.value })
+                    }
+                  />
+
+                  <p className="font-semibold mt-2">
+                    Coberturas adicionais desejáveis:
+                  </p>
 
                   {[
                     'Danos Elétricos',
@@ -472,10 +468,9 @@ ${autoForm.observacoes}
                     'Desmoronamento',
                     'Vazamento de Tanques e Tubulações',
                   ].map((item) => (
-                    <label key={item} className="flex items-center gap-2">
+                    <label key={item} className="flex gap-2 items-center">
                       <input
                         type="checkbox"
-                        checked={empresarialForm.coberturas.includes(item)}
                         onChange={(e) => {
                           if (e.target.checked) {
                             setEmpresarialForm({
