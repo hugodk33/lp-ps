@@ -550,11 +550,11 @@ const isFormValid =
                     placeholder="WhatsApp"
                     onChange={(e) =>
                       setEmpresarialForm({
-                        ...residencialForm,
+                        ...empresarialForm,
                         whatsapp: formatPhone(e.target.value),
                       })
                     }
-                    value={residencialForm.whatsapp}
+                    value={empresarialForm.whatsapp}
                     onBlur={() => setTouched({ ...touched, whatsapp: true })}
                     className={`w-full p-2 rounded border bg-white ${getError('whatsapp') ? 'border-red-500' : 'border-gray-300'
                       }`}
