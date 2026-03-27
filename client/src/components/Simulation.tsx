@@ -604,29 +604,6 @@ const isFormValid =
                   ))}
                 </>
               )}
-
-              <input
-                type="email"
-                placeholder="Seu e-mail"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                className="w-full p-2 rounded border bg-white"
-                required
-              />
-
-              <input
-                type="text"
-                placeholder="WhatsApp"
-                value={form.whatsapp}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    whatsapp: formatPhone(e.target.value),
-                  })
-                }
-                className="w-full p-2 rounded border bg-white"
-                required
-              />
               <ReCAPTCHA
                 sitekey="6LfSFpEsAAAAAB5dwKw79cpzvjbbQub33TvaRyul"
                 onChange={(value: any) => setCaptchaValue(value)}
