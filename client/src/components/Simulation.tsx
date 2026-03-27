@@ -41,6 +41,31 @@ export default function Simulation() {
     message: '',
   });
 
+  const [autoForm, setAutoForm] = useState({
+    cpfCondutor: '',
+    cpfSegurado: '',
+    estadoCivil: '',
+    placa: '',
+    uso: '',
+    jovem: '',
+    observacoes: '',
+  });
+
+  const [residencialForm, setResidencialForm] = useState({
+    documento: '',
+    cep: '',
+    valor: '',
+    coberturas: [] as string[],
+  });
+
+  const [empresarialForm, setEmpresarialForm] = useState({
+    documento: '',
+    rc: '',
+    subtracao: '',
+    desmoronamento: '',
+    vazamento: '',
+  });
+
   const [touched, setTouched] = useState({
     fullName: false,
     email: false,
@@ -49,25 +74,29 @@ export default function Simulation() {
     message: false,
   });
 
+  const [type, setType] = useState<'familia' | 'auto' | 'residencial' | 'empresarial'>('familia');
+
+
+
   const getError = (field: string) => {
     if (!touched[field as keyof typeof touched]) return '';
-  
+
     switch (field) {
       case 'fullName':
         return form.fullName.length < 3 ? 'Nome muito curto' : '';
-  
+
       case 'email':
         return !isValidEmail(form.email) ? 'Email inválido' : '';
-  
+
       case 'whatsapp':
         return !isValidPhone(form.whatsapp) ? 'WhatsApp inválido (DDD + número)' : '';
-  
+
       case 'cpf':
         return !isValidCPF(form.cpf) ? 'CPF inválido' : '';
-  
+
       case 'message':
         return form.message.length < 5 ? 'Mensagem muito curta' : '';
-  
+
       default:
         return '';
     }
@@ -94,42 +123,76 @@ export default function Simulation() {
     const digits = phone.replace(/\D/g, '');
     return digits.length === 11;
   };
-  
+
   const isValidEmail = (email: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const isValidCPF = (cpf: string) => {
     const cleaned = cpf.replace(/\D/g, '');
-  
+
     if (cleaned.length !== 11 || /^(\d)\1+$/.test(cleaned)) return false;
-  
+
     let sum = 0;
     let rest;
-  
+
     for (let i = 1; i <= 9; i++)
       sum += parseInt(cleaned.substring(i - 1, i)) * (11 - i);
-  
+
     rest = (sum * 10) % 11;
     if (rest === 10 || rest === 11) rest = 0;
     if (rest !== parseInt(cleaned.substring(9, 10))) return false;
-  
+
     sum = 0;
     for (let i = 1; i <= 10; i++)
       sum += parseInt(cleaned.substring(i - 1, i)) * (12 - i);
-  
+
     rest = (sum * 10) % 11;
     if (rest === 10 || rest === 11) rest = 0;
-  
+
     return rest === parseInt(cleaned.substring(10, 11));
   };
 
-  const isFormValid =
-  form.fullName.length > 3 &&
-  isValidEmail(form.email) &&
-  isValidPhone(form.whatsapp) &&
-  isValidCPF(form.cpf) &&
-  form.message.length > 5 &&
-  !!captchaValue;
+  const isFormValid = (() => {
+    if (!captchaValue) return false;
+
+    if (type === 'familia') {
+      return (
+        form.fullName.length > 3 &&
+        isValidEmail(form.email) &&
+        isValidPhone(form.whatsapp) &&
+        isValidCPF(form.cpf) &&
+        form.message.length > 5
+      );
+    }
+
+    if (type === 'auto') {
+      return (
+        isValidCPF(autoForm.cpfCondutor) &&
+        isValidCPF(autoForm.cpfSegurado) &&
+        autoForm.estadoCivil &&
+        autoForm.placa &&
+        autoForm.uso &&
+        autoForm.jovem
+      );
+    }
+
+    if (type === 'residencial') {
+      return (
+        residencialForm.documento &&
+        residencialForm.cep &&
+        residencialForm.valor
+      );
+    }
+
+    if (type === 'empresarial') {
+      return (
+        empresarialForm.documento &&
+        empresarialForm.rc
+      );
+    }
+
+    return false;
+  })();
 
   const calculateMonthly = () => {
     const basePrice = BASE_PRICES[quote.type];
@@ -140,21 +203,56 @@ export default function Simulation() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
     if (!isFormValid) return;
-  
-    const finalMessage = `
-  Nova solicitação de contato 📩
-  
-  👤 Nome: ${form.fullName}
-  📧 Email: ${form.email}
-  📱 WhatsApp: ${form.whatsapp}
-  🪪 CPF: ${form.cpf}
-  
-  💬 Mensagem:
-  ${form.message}
-    `;
-  
+
+    let finalMessage = '';
+
+    if (type === 'familia') {
+      finalMessage = `👨‍👩‍👧 Seguro Família\n\nNome: ${form.fullName} ...`;
+    }
+
+    if (type === 'auto') {
+      finalMessage = `
+🚗 Seguro Automóvel
+
+CPF Condutor: ${autoForm.cpfCondutor}
+CPF Segurado: ${autoForm.cpfSegurado}
+Estado Civil: ${autoForm.estadoCivil}
+Placa: ${autoForm.placa}
+Uso: ${autoForm.uso}
+Condutor Jovem: ${autoForm.jovem}
+
+Obs:
+${autoForm.observacoes}
+`;
+    }
+
+    if (type === 'residencial') {
+      finalMessage = `
+🏠 Seguro Residencial
+
+Documento: ${residencialForm.documento}
+CEP: ${residencialForm.cep}
+Valor: ${residencialForm.valor}
+
+Coberturas:
+${residencialForm.coberturas.join(', ')}
+`;
+    }
+
+    if (type === 'empresarial') {
+      finalMessage = `
+🏢 Seguro Empresarial
+
+Documento: ${empresarialForm.documento}
+RC: ${empresarialForm.rc}
+Subtração: ${empresarialForm.subtracao}
+Desmoronamento: ${empresarialForm.desmoronamento}
+Vazamento: ${empresarialForm.vazamento}
+`;
+    }
+
     emailjs.send(
       'service_0wz250l',
       'template_bbu3a8x',
@@ -165,17 +263,17 @@ export default function Simulation() {
       },
       'UBZh004gEbzDGltI-'
     )
-    .then(() => {
-      setIsSent(true);
-      setForm({
-        fullName: '',
-        email: '',
-        whatsapp: '',
-        cpf: '',
-        message: '',
-      });
-    })
-    .catch(console.error);
+      .then(() => {
+        setIsSent(true);
+        setForm({
+          fullName: '',
+          email: '',
+          whatsapp: '',
+          cpf: '',
+          message: '',
+        });
+      })
+      .catch(console.error);
   };
 
   const monthlyPrice = calculateMonthly();
@@ -194,107 +292,195 @@ export default function Simulation() {
             Nos contacte para receber sua simulação
           </p>
         </div>
-        <div style={{maxWidth: 360 , margin: '0 auto'}}>
-          {/* <h3 className="font-bold text-lg">Email</h3> */}
 
+        <div style={{ maxWidth: 360, margin: '0 auto' }}>
+          <div className="flex gap-2 mb-6 justify-center flex-wrap">
+            <button type="button" onClick={() => setType('familia')} className={`px-3 py-2 rounded ${type === 'familia' ? 'bg-primary text-white' : 'bg-gray-300'}`}>
+              👨‍👩‍👧 Família
+            </button>
+
+            <button type="button" onClick={() => setType('auto')} className={`px-3 py-2 rounded ${type === 'auto' ? 'bg-primary text-white' : 'bg-gray-300'}`}>
+              🚗 Automóvel
+            </button>
+
+            <button type="button" onClick={() => setType('residencial')} className={`px-3 py-2 rounded ${type === 'residencial' ? 'bg-primary text-white' : 'bg-gray-300'}`}>
+              🏠 Residencial
+            </button>
+
+            <button type="button" onClick={() => setType('empresarial')} className={`px-3 py-2 rounded ${type === 'empresarial' ? 'bg-primary text-white' : 'bg-gray-300'}`}>
+              🏢 Empresarial
+            </button>
+          </div>
           {!isSent ? (
             <form onSubmit={handleSubmit} className="space-y-6">
-            <input
-              name="fullName"
-              type="text"
-              placeholder="Nome completo"
-              onChange={(e) => setForm({ ...form, fullName: e.target.value })}
-              onBlur={() => setTouched({ ...touched, fullName: true })}
-              className={`w-full p-2 rounded border bg-white ${
-                getError('fullName') ? 'border-red-500' : 'border-gray-300'
-              }`}
-              required
-            />
-            
-            {getError('fullName') && (
-              <span className="text-red-500 text-sm">{getError('fullName')}</span>
-            )}
+              {type === 'familia' && (
+                <>
+                  <input
+                    name="fullName"
+                    type="text"
+                    placeholder="Nome completo"
+                    onChange={(e) => setForm({ ...form, fullName: e.target.value })}
+                    onBlur={() => setTouched({ ...touched, fullName: true })}
+                    className={`w-full p-2 rounded border bg-white ${getError('fullName') ? 'border-red-500' : 'border-gray-300'
+                      }`}
+                    required
+                  />
 
-            <input
-              name="email"
-              type="email"
-              placeholder="Seu e-mail"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-              onBlur={() => setTouched({ ...touched, email: true })}
-              className={`w-full p-2 rounded border bg-white ${
-                getError('email') ? 'border-red-500' : 'border-gray-300'
-              }`}
-            />
+                  {getError('fullName') && (
+                    <span className="text-red-500 text-sm">{getError('fullName')}</span>
+                  )}
 
-            {getError('email') && (
-              <span className="text-red-500 text-sm">{getError('email')}</span>
-            )}
-          
-            <input
-              name="whatsapp"
-              type="text"
-              placeholder="WhatsApp"
-              onChange={(e) => setForm({ ...form, whatsapp: e.target.value })}
-              onBlur={() => setTouched({ ...touched, whatsapp: true })}
-              className={`w-full p-2 rounded border bg-white ${
-                getError('whatsapp') ? 'border-red-500' : 'border-gray-300'
-              }`}
-              required
-            />
+                  <input
+                    name="email"
+                    type="email"
+                    placeholder="Seu e-mail"
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    onBlur={() => setTouched({ ...touched, email: true })}
+                    className={`w-full p-2 rounded border bg-white ${getError('email') ? 'border-red-500' : 'border-gray-300'
+                      }`}
+                  />
 
-            {getError('whatsapp') && (
-              <span className="text-red-500 text-sm">{getError('whatsapp')}</span>
-            )}
-          
-            <input
-              name="cpf"
-              type="text"
-              placeholder="CPF"
-              onChange={(e) => setForm({ ...form, cpf: e.target.value })}
-              onBlur={() => setTouched({ ...touched, cpf: true })}
-              className={`w-full p-2 rounded border bg-white ${
-                getError('cpf') ? 'border-red-500' : 'border-gray-300'
-              }`}
-              required
-            />
+                  {getError('email') && (
+                    <span className="text-red-500 text-sm">{getError('email')}</span>
+                  )}
 
-            {getError('cpf') && (
-              <span className="text-red-500 text-sm">{getError('cpf')}</span>
-            )}
-          
-            <textarea
-              name="message"
-              placeholder="Mensagem"
-              value={form.message}
-              onChange={(e) => setForm({ ...form, message: e.target.value })}
-              onBlur={() => setTouched({ ...touched, message: true })}
-              className={`w-full p-2 rounded border bg-white ${
-                getError('message') ? 'border-red-500' : 'border-gray-300'
-              }`}
-              required
-            />
+                  <input
+                    name="whatsapp"
+                    type="text"
+                    placeholder="WhatsApp"
+                    onChange={(e) =>
+                      setForm({
+                        ...form,
+                        whatsapp: formatPhone(e.target.value),
+                      })
+                    }
+                    onBlur={() => setTouched({ ...touched, whatsapp: true })}
+                    className={`w-full p-2 rounded border bg-white ${getError('whatsapp') ? 'border-red-500' : 'border-gray-300'
+                      }`}
+                    required
+                  />
 
-            {getError('message') && (
-              <span className=
-              "text-red-500 text-sm">{getError('message')}</span>
-            )}
+                  {getError('whatsapp') && (
+                    <span className="text-red-500 text-sm">{getError('whatsapp')}</span>
+                  )}
 
-            <ReCAPTCHA
-              sitekey="6LfSFpEsAAAAAB5dwKw79cpzvjbbQub33TvaRyul"
-              onChange={(value:any) => setCaptchaValue(value)}
-              className='flex items-center justify-center'
-            />
-            <button
-              type="submit"
-              disabled={!isFormValid}
-              className={`py-2 px-4 w-full rounded text-white ${
-                isFormValid ? 'bg-primary' : 'bg-gray-400 cursor-not-allowed'
-              }`}
-            >
-              Enviar Mensagem
-            </button>
-          </form>
+                  <input
+                    name="cpf"
+                    type="text"
+                    placeholder="CPF"
+                    onChange={(e) =>
+                      setForm({
+                        ...form,
+                        cpf: formatCPF(e.target.value),
+                      })
+                    }
+                    onBlur={() => setTouched({ ...touched, cpf: true })}
+                    className={`w-full p-2 rounded border bg-white ${getError('cpf') ? 'border-red-500' : 'border-gray-300'
+                      }`}
+                    required
+                  />
+
+                  {getError('cpf') && (
+                    <span className="text-red-500 text-sm">{getError('cpf')}</span>
+                  )}
+
+                  <textarea
+                    name="message"
+                    placeholder="Mensagem"
+                    value={form.message}
+                    onChange={(e) => setForm({ ...form, message: e.target.value })}
+                    onBlur={() => setTouched({ ...touched, message: true })}
+                    className={`w-full p-2 rounded border bg-white ${getError('message') ? 'border-red-500' : 'border-gray-300'
+                      }`}
+                    required
+                  />
+
+                  {getError('message') && (
+                    <span className=
+                      "text-red-500 text-sm">{getError('message')}</span>
+                  )}
+                </>
+              )}
+              {type === 'auto' && (
+                <>
+                  <input className='w-full p-2 rounded border bg-white ' placeholder="CPF Condutor" onChange={(e) => setAutoForm({ ...autoForm, cpfCondutor: formatCPF(e.target.value) })} />
+                  <input className='w-full p-2 rounded border bg-white ' placeholder="CPF Segurado" onChange={(e) => setAutoForm({ ...autoForm, cpfSegurado: formatCPF(e.target.value) })} />
+
+                  <input className='w-full p-2 rounded border bg-white ' placeholder="Estado Civil" onChange={(e) => setAutoForm({ ...autoForm, estadoCivil: e.target.value })} />
+
+                  <input className='w-full p-2 rounded border bg-white ' placeholder="Placa" onChange={(e) => setAutoForm({ ...autoForm, placa: e.target.value })} />
+
+                  <select className='w-full p-2 rounded border bg-white ' onChange={(e) => setAutoForm({ ...autoForm, uso: e.target.value })}>
+                    <option value="">Uso do veículo</option>
+                    <option>Particular</option>
+                    <option>Comercial</option>
+                    <option>App</option>
+                  </select>
+
+                  <select className='w-full p-2 rounded border bg-white ' onChange={(e) => setAutoForm({ ...autoForm, jovem: e.target.value })}>
+                    <option value="">Condutor 18-25?</option>
+                    <option>Sim</option>
+                    <option>Não</option>
+                  </select>
+
+                  <textarea className='w-full p-2 rounded border bg-white ' placeholder="Observações" onChange={(e) => setAutoForm({ ...autoForm, observacoes: e.target.value })} />
+                </>
+              )}
+              {type === 'residencial' && (
+                <>
+                  <input className='w-full p-2 rounded border bg-white ' placeholder="CPF/CNPJ" onChange={(e) => setResidencialForm({ ...residencialForm, documento: e.target.value })} />
+
+                  <input className='w-full p-2 rounded border bg-white ' placeholder="CEP" onChange={(e) => setResidencialForm({ ...residencialForm, cep: e.target.value })} />
+
+                  <input className='w-full p-2 rounded border bg-white ' placeholder="Valor indenizatório" onChange={(e) => setResidencialForm({ ...residencialForm, valor: e.target.value })} />
+
+                  {['Dano elétrico', 'RC Família', 'Subtração', 'Desmoronamento', 'Vazamento'].map((item) => (
+                    <label className='flex' key={item}>
+                      <input
+                         className='flex flex-col flex-wrap gap-2 ' 
+                        type="checkbox"
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setResidencialForm({
+                              ...residencialForm,
+                              coberturas: [...residencialForm.coberturas, item],
+                            });
+                          }
+                        }}
+                      />
+                      {item}
+                    </label>
+                  ))}
+                </>
+              )}
+              {type === 'empresarial' && (
+                <>
+                  <input className='w-full p-2 rounded border bg-white ' placeholder="CPF/CNPJ" onChange={(e) => setEmpresarialForm({ ...empresarialForm, documento: e.target.value })} />
+
+                  <input className='w-full p-2 rounded border bg-white ' placeholder="Responsabilidade Civil" onChange={(e) => setEmpresarialForm({ ...empresarialForm, rc: e.target.value })} />
+
+                  <input className='w-full p-2 rounded border bg-white ' placeholder="Subtração de bens" onChange={(e) => setEmpresarialForm({ ...empresarialForm, subtracao: e.target.value })} />
+
+                  <input className='w-full p-2 rounded border bg-white ' placeholder="Desmoronamento" onChange={(e) => setEmpresarialForm({ ...empresarialForm, desmoronamento: e.target.value })} />
+
+                  <input className='w-full p-2 rounded border bg-white ' placeholder="Vazamento" onChange={(e) => setEmpresarialForm({ ...empresarialForm, vazamento: e.target.value })} />
+                </>
+              )}
+              <ReCAPTCHA
+                sitekey="6LfSFpEsAAAAAB5dwKw79cpzvjbbQub33TvaRyul"
+                onChange={(value: any) => setCaptchaValue(value)}
+                className='flex items-center justify-center'
+              />
+              <button
+                type="submit"
+                disabled={!isFormValid}
+                className={`py-2 px-4 w-full rounded text-white ${isFormValid ? 'bg-primary' : 'bg-gray-400 cursor-not-allowed'
+                  }`}
+              >
+                Enviar Mensagem
+              </button>
+            </form>
           ) : (
             <div className="p-6 bg-green-100 rounded-lg text-center">
               <h4 className="text-lg font-bold text-green-700 mb-2">
