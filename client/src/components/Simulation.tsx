@@ -44,6 +44,8 @@ export default function Simulation() {
   const [autoForm, setAutoForm] = useState({
     cpfCondutor: '',
     cpfSegurado: '',
+    email: '',
+    whatsapp: '',
     estadoCivil: '',
     placa: '',
     uso: '',
@@ -55,6 +57,8 @@ export default function Simulation() {
   const [residencialForm, setResidencialForm] = useState({
     documento: '',
     cep: '',
+    email: '',
+    whatsapp: '',
     valor: '',
     coberturas: [] as string[],
   });
@@ -62,6 +66,8 @@ export default function Simulation() {
   const [empresarialForm, setEmpresarialForm] = useState({
     documento: '',
     cep: '',
+    email: '',
+    whatsapp: '',
     valor: '',
     coberturas: [] as string[],
   });
@@ -394,6 +400,34 @@ const isFormValid =
                 <>
                   <input className='w-full p-2 rounded border bg-white ' placeholder="CPF Condutor" onChange={(e) => setAutoForm({ ...autoForm, cpfCondutor: formatCPF(e.target.value) })} />
                   <input className='w-full p-2 rounded border bg-white ' placeholder="CPF Segurado" onChange={(e) => setAutoForm({ ...autoForm, cpfSegurado: formatCPF(e.target.value) })} />
+                  
+                  <input
+                    name="email"
+                    type="email"
+                    placeholder="Seu e-mail"
+                    value={autoForm.email}
+                    onChange={(e) => setAutoForm({ ...autoForm, email: e.target.value })}
+                    onBlur={() => setTouched({ ...touched, email: true })}
+                    className={`w-full p-2 rounded border bg-white ${getError('email') ? 'border-red-500' : 'border-gray-300'
+                      }`}
+                  />
+
+                  <input
+                    name="whatsapp"
+                    type="text"
+                    placeholder="WhatsApp"
+                    onChange={(e) =>
+                      setAutoForm({
+                        ...autoForm,
+                        whatsapp: formatPhone(e.target.value),
+                      })
+                    }
+                    value={autoForm.email}
+                    onBlur={() => setTouched({ ...touched, whatsapp: true })}
+                    className={`w-full p-2 rounded border bg-white ${getError('whatsapp') ? 'border-red-500' : 'border-gray-300'
+                      }`}
+                    required
+                  />
 
                   <input className='w-full p-2 rounded border bg-white ' placeholder="Estado Civil" onChange={(e) => setAutoForm({ ...autoForm, estadoCivil: e.target.value })} />
                   <input
@@ -430,6 +464,34 @@ const isFormValid =
                   <input className='w-full p-2 rounded border bg-white ' placeholder="CPF/CNPJ" onChange={(e) => setResidencialForm({ ...residencialForm, documento: e.target.value })} />
 
                   <input className='w-full p-2 rounded border bg-white ' placeholder="CEP" onChange={(e) => setResidencialForm({ ...residencialForm, cep: e.target.value })} />
+                  
+                  <input
+                    name="email"
+                    type="email"
+                    placeholder="Seu e-mail"
+                    value={residencialForm.email}
+                    onChange={(e) => setResidencialForm({ ...residencialForm, email: e.target.value })}
+                    onBlur={() => setTouched({ ...touched, email: true })}
+                    className={`w-full p-2 rounded border bg-white ${getError('email') ? 'border-red-500' : 'border-gray-300'
+                      }`}
+                  />
+
+                  <input
+                    name="whatsapp"
+                    type="text"
+                    placeholder="WhatsApp"
+                    onChange={(e) =>
+                      setResidencialForm({
+                        ...residencialForm,
+                        whatsapp: formatPhone(e.target.value),
+                      })
+                    }
+                    value={residencialForm.whatsapp}
+                    onBlur={() => setTouched({ ...touched, whatsapp: true })}
+                    className={`w-full p-2 rounded border bg-white ${getError('whatsapp') ? 'border-red-500' : 'border-gray-300'
+                      }`}
+                    required
+                  />
 
                   <input className='w-full p-2 rounded border bg-white ' placeholder="Valor indenizatório" onChange={(e) => setResidencialForm({ ...residencialForm, valor: e.target.value })} />
 
@@ -469,6 +531,34 @@ const isFormValid =
                     onChange={(e) =>
                       setEmpresarialForm({ ...empresarialForm, cep: e.target.value })
                     }
+                  />
+
+                  <input
+                    name="email"
+                    type="email"
+                    placeholder="Seu e-mail"
+                    value={empresarialForm.email}
+                    onChange={(e) => setEmpresarialForm({ ...empresarialForm, email: e.target.value })}
+                    onBlur={() => setTouched({ ...touched, email: true })}
+                    className={`w-full p-2 rounded border bg-white ${getError('email') ? 'border-red-500' : 'border-gray-300'
+                      }`}
+                  />
+
+                  <input
+                    name="whatsapp"
+                    type="text"
+                    placeholder="WhatsApp"
+                    onChange={(e) =>
+                      setEmpresarialForm({
+                        ...residencialForm,
+                        whatsapp: formatPhone(e.target.value),
+                      })
+                    }
+                    value={residencialForm.whatsapp}
+                    onBlur={() => setTouched({ ...touched, whatsapp: true })}
+                    className={`w-full p-2 rounded border bg-white ${getError('whatsapp') ? 'border-red-500' : 'border-gray-300'
+                      }`}
+                    required
                   />
 
                   <input
@@ -514,6 +604,29 @@ const isFormValid =
                   ))}
                 </>
               )}
+
+              <input
+                type="email"
+                placeholder="Seu e-mail"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                className="w-full p-2 rounded border bg-white"
+                required
+              />
+
+              <input
+                type="text"
+                placeholder="WhatsApp"
+                value={form.whatsapp}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    whatsapp: formatPhone(e.target.value),
+                  })
+                }
+                className="w-full p-2 rounded border bg-white"
+                required
+              />
               <ReCAPTCHA
                 sitekey="6LfSFpEsAAAAAB5dwKw79cpzvjbbQub33TvaRyul"
                 onChange={(value: any) => setCaptchaValue(value)}
