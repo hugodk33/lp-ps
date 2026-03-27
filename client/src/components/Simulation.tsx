@@ -49,6 +49,7 @@ export default function Simulation() {
     uso: '',
     jovem: '',
     observacoes: '',
+    cep: '', // 👈 NOVO
   });
 
   const [residencialForm, setResidencialForm] = useState({
@@ -107,6 +108,13 @@ export default function Simulation() {
       .replace(/^(\d{2})(\d)/, '($1) $2')
       .replace(/(\d{5})(\d)/, '$1-$2')
       .slice(0, 15);
+  };
+
+  const formatCEP = (value: string) => {
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{5})(\d)/, '$1-$2')
+      .slice(0, 9);
   };
 
   const formatCPF = (value: string) => {
@@ -189,18 +197,19 @@ const isFormValid =
 
     if (type === 'auto') {
       finalMessage = `
-🚗 Seguro Automóvel
+      🚗 Seguro Automóvel
 
-CPF Condutor: ${autoForm.cpfCondutor}
-CPF Segurado: ${autoForm.cpfSegurado}
-Estado Civil: ${autoForm.estadoCivil}
-Placa: ${autoForm.placa}
-Uso: ${autoForm.uso}
-Condutor Jovem: ${autoForm.jovem}
+      CPF Condutor: ${autoForm.cpfCondutor}
+      CPF Segurado: ${autoForm.cpfSegurado}
+      Estado Civil: ${autoForm.estadoCivil}
+      Placa: ${autoForm.placa}
+      CEP: ${autoForm.cep}
+      Uso: ${autoForm.uso}
+      Condutor Jovem: ${autoForm.jovem}
 
-Obs:
-${autoForm.observacoes}
-`;
+      Obs:
+      ${autoForm.observacoes}
+      `;
     }
 
     if (type === 'residencial') {
@@ -384,7 +393,16 @@ ${autoForm.observacoes}
                   <input className='w-full p-2 rounded border bg-white ' placeholder="CPF Segurado" onChange={(e) => setAutoForm({ ...autoForm, cpfSegurado: formatCPF(e.target.value) })} />
 
                   <input className='w-full p-2 rounded border bg-white ' placeholder="Estado Civil" onChange={(e) => setAutoForm({ ...autoForm, estadoCivil: e.target.value })} />
-
+                  <input
+                    placeholder="CEP"
+                    value={autoForm.cep}
+                    onChange={(e) =>
+                      setAutoForm({
+                        ...autoForm,
+                        cep: formatCEP(e.target.value),
+                      })
+                    }
+                  />
                   <input className='w-full p-2 rounded border bg-white ' placeholder="Placa" onChange={(e) => setAutoForm({ ...autoForm, placa: e.target.value })} />
 
                   <select className='w-full p-2 rounded border bg-white ' onChange={(e) => setAutoForm({ ...autoForm, uso: e.target.value })}>
