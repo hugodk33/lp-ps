@@ -422,7 +422,7 @@ const isFormValid =
                         whatsapp: formatPhone(e.target.value),
                       })
                     }
-                    value={autoForm.email}
+                    value={autoForm.whatsapp}
                     onBlur={() => setTouched({ ...touched, whatsapp: true })}
                     className={`w-full p-2 rounded border bg-white ${getError('whatsapp') ? 'border-red-500' : 'border-gray-300'
                       }`}
