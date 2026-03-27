@@ -159,7 +159,10 @@ export default function Simulation() {
     return rest === parseInt(cleaned.substring(10, 11));
   };
 
-const isAutoValid = autoForm.cpfCondutor && autoForm.placa;
+const isAutoValid =
+  autoForm.cpfCondutor &&
+  autoForm.placa &&
+  autoForm.cep;
 const isResidencialValid = residencialForm.documento && residencialForm.cep;
 const isEmpresarialValid = empresarialForm.documento && empresarialForm.cep;
 
@@ -394,6 +397,7 @@ const isFormValid =
 
                   <input className='w-full p-2 rounded border bg-white ' placeholder="Estado Civil" onChange={(e) => setAutoForm({ ...autoForm, estadoCivil: e.target.value })} />
                   <input
+                    className='w-full p-2 rounded border bg-white '
                     placeholder="CEP"
                     value={autoForm.cep}
                     onChange={(e) =>
