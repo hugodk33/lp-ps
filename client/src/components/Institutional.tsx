@@ -71,7 +71,7 @@ export default function Institutional() {
       <div className="mt-16 border-t border-border bg-gradient-to-r from-indigo-700 to-blue-500 py-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center mx-auto" style={{maxWidth: 800}}>
           <div className="space-y-2">
-            <div className="text-4xl font-bold text-green-300">50K+</div>
+            <div className="text-4xl font-bold text-green-300">5K+</div>
             <hr className="w-2/4 mx-auto border-1"/>
             <p className="text-white font-semibold">Clientes Satisfeitos</p>
           </div>

@@ -64,7 +64,7 @@ export default function HeroBanner() {
             <div className="flex flex-wrap gap-6 pt-4">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-accent rounded-full" />
-                <span className="text-sm font-medium text-neutral-dark">+50 mil clientes</span>
+                <span className="text-sm font-medium text-neutral-dark">+5 mil clientes</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-accent rounded-full" />
